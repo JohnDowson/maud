@@ -7,7 +7,7 @@
 //!
 //! [book]: https://maud.lambda.xyz/
 
-#![doc(html_root_url = "https://docs.rs/maud/0.22.2")]
+#![doc(html_root_url = "https://docs.rs/maud/0.22.3")]
 
 extern crate alloc;
 
@@ -239,6 +239,9 @@ mod axum_support {
     };
 
     impl IntoResponse for PreEscaped<String> {
+        type Body = Body;
+        type BodyError = <Self::Body as axum::body::HttpBody>::Error;
+
         fn into_response(self) -> Response<Body> {
             let mut res = Response::new(Body::from(self.0));
             *res.status_mut() = StatusCode::OK;
